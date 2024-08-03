@@ -37,7 +37,7 @@
 .globl main
 
 main:
-// x0 contiene la direccion base del framebuffer
+// x0 contiene la dirección base del framebuffer
 mov x20, x0 // Guarda la dirección base del framebuffer en x20
 //---------------- CODE HERE ------------------------------------
 
@@ -68,7 +68,7 @@ ldr x14, =DARKCOLOR
 
 mov x21, CHESS_TABLE //Asigno el valor de las dimensiones del tablero
 
-//ACOMODAMOS X0 A LA DIRECCION DE MEMORIA QUE QUEREMOS PARA QUE EL TABLERO QUEDE CENTRADO
+//ACOMODAMOS X0 A LA DIRECCIÓN DE MEMORIA QUE QUEREMOS PARA QUE EL TABLERO QUEDE CENTRADO
 
 mov x2, BTW_CHESS_BORDER_HEIGH
 looptablero1:
@@ -100,9 +100,9 @@ stur w13,[x0] // Colorear
 add x0,x0,4 // Siguiente pixel
 sub x3, x3, 1 // Resto al contador del length de cada cuadrado
 sub x1,x1,1 // Decrementar contador del ancho del tablero
-cbz x1, nextline1 // chequeo si llegue al extremo derecho del tablero
-cbz x3, resetdark1 // si ya complete el length del cuadrado, coloreo oscuro ahora
-b light1 //si no termine el length del cuadrado, sigo con claro
+cbz x1, nextline1 // chequeo si llegué al extremo derecho del tablero
+cbz x3, resetdark1 // si ya completé el length del cuadrado, coloreo oscuro ahora
+b light1 //si no terminé el length del cuadrado, sigo con claro
 
 resetdark1: mov x3, 56 // reseteo el length de cada cuadrado
 dark1:
@@ -110,20 +110,20 @@ stur w14, [x0] // Colorear
 add x0, x0, 4 // Siguiente pixel
 sub x3, x3, 1 // Resto al contador del length de cada cuadrado
 sub x1, x1, 1 // Decrementar contador del ancho del tablero
-cbz x1, nextline1 // Chequeo si llegue al extremo derecho del tablero
-cbz x3, resetlight1 // si ya complete el length del cuadrado, coloreo claro ahora
-b dark1 //si no termine el length del cuadrado, sigo con oscuro
+cbz x1, nextline1 // Chequeo si llegué al extremo derecho del tablero
+cbz x3, resetlight1 // si ya completé el length del cuadrado, coloreo claro ahora
+b dark1 //si no terminé el length del cuadrado, sigo con oscuro
 
 
 nextline1: add x0,x0,(SCREEN_WIDTH-CHESS_TABLE)*4 // Me salteo todo lo que queda de la fila p/ llegar a la sig fila y al centro
 sub x4, x4, 1 // decremento el contador para saber si tengo que cambiar el orden de los colores
 sub x2,x2, 1 // Decrementar contador del largo del tablero
-cbz x2, done // Si llegue a colorear el largo del tablero, termino
+cbz x2, done // Si llegué a colorear el largo del tablero, termino
 cbz x4, switch2 // chequeo si ya es momento de cambiar el orden de los colores
-b looptablero3 //si todavia no es momento de cambiar el orden de los colores, sigo coloreando como antes
+b looptablero3 //si todavía no es momento de cambiar el orden de los colores, sigo coloreando como antes
 
 
- //MISMO CODIGO QUE ARRIBA PERO CAMBIADO EL ORDEN DE LOS COLORES
+ //MISMO CÓDIGO QUE ARRIBA PERO CAMBIADO EL ORDEN DE LOS COLORES
 
 
 switch2: mov x4, 56 // contador para el cambio del orden de los colores
@@ -139,9 +139,9 @@ stur w14,[x0] // Colorear
 add x0,x0,4 // Siguiente pixel
 sub x3, x3, 1 // Decremento el contador del length del cuadrado
 sub x1,x1,1 // Decrementar contador del ancho
-cbz x1, nextline2 //cheque si llegue al extremo derecho del tablero
-cbz x3, resetlight2 //si complete el length del cuadrado, coloreo claro ahora
-b dark2 // si no complete el length, sigo con oscuro
+cbz x1, nextline2 //cheque si llegué al extremo derecho del tablero
+cbz x3, resetlight2 //si completé el length del cuadrado, coloreo claro ahora
+b dark2 // si no completé el length, sigo con oscuro
 
 resetlight2: mov x3, 56 // reseteo el length de cada cuadrado
 light2:
@@ -149,28 +149,28 @@ stur w13, [x0] // coloreo
 add x0, x0, 4 // siguiente pixel
 sub x3, x3, 1 // Decremento el contador del length del cuadrado
 sub x1, x1, 1 // Decrementar contador del ancho
-cbz x1, nextline2 // chequeo si llegue al extremo derecho del tablero
-cbz x3, resetdark2 //si completee el length del cuadrado, paso a colorear oscuro
-b light2 //si no complete el length del cuadrado, sigo con claro
+cbz x1, nextline2 // chequeo si llegué al extremo derecho del tablero
+cbz x3, resetdark2 //si completé el length del cuadrado, paso a colorear oscuro
+b light2 //si no completé el length del cuadrado, sigo con claro
 
 
 nextline2: add x0,x0,(SCREEN_WIDTH-CHESS_TABLE)*4 // Me salteo todo lo que queda de la fila p/ llegar a la sig fila
 sub x4, x4, 1 //decremento el contador para saber si tengo que cambiar el orden de los colores
 sub x2,x2, 1 // Decrementar contador del largo
-cbz x2, done // Si llegue a colorear el largo del tablero, termino
+cbz x2, done // Si llegué a colorear el largo del tablero, termino
 cbz x4, switch1 // chequeo si ya es momento de cambiar el orden de los colores
-b looptablero4 //si todavia no es momento de cambiar el orden de los colores, sigo coloreando como antes
+b looptablero4 //si todavía no es momento de cambiar el orden de los colores, sigo coloreando como antes
 
 done:
 
 
 
-//x16 es el parametro de la altura del framebuffer
-//x17 es el parametro de lo ancho del framebuffer
-//x18 es el parametro del ancho del lado de arriba de los trapecios
+//x16 es el parámetro de la altura del framebuffer
+//x17 es el parámetro de lo ancho del framebuffer
+//x18 es el parámetro del ancho del lado de arriba de los trapecios
 //x19 es la altura de los trapecios
-//x15 sirve para colocar x0 justo para hacer un trapeciopiso abajo del circulo (si no estamos trabajando con trapeciopiso y circulo juntos, x15 tomara el valor 0, si trbajamos junto a un circulo, x15 tomara el valor de RADIUS (radio del circulo del peon, alfil y rey)
-//x9 tomara el valor del cuadrado del radio que querramos hacer el circulo (en SQUARERADIUS tenemos el tamaño para hacer el circulo del peon, alfil y rey)
+//x15 sirve para colocar x0 justo para hacer un trapeciopiso abajo del círculo (si no estamos trabajando con trapeciopiso y círculo juntos, x15 tomara el valor 0, si trabajamos junto a un círculo, x15 tomará el valor de RADIUS (radio del círculo del peón, alfil y rey)
+//x9 tomará el valor del cuadrado del radio que querramos hacer el círculo (en SQUARERADIUS tenemos el tamaño para hacer el círculo del peón, alfil y rey)
 
 ldr x10, =NEGRO
 
@@ -267,11 +267,11 @@ bl drawknight
  mov x19, 116 // Movimiento en X
  bl drawtower
  
- //PARAMETROS DE DRAWKING
+ //PARÁMETROS DE DRAWKING
 //params de la cruz
 mov x18, 25
 mov x19, 342
-//params del peon
+//params del peón
 mov x16, 440
 mov x17, 292
 
@@ -372,11 +372,11 @@ bl drawknight
  bl drawtower
  
 
- //PARAMETROS DE DRAWKING
+ //PARÁMETROS DE DRAWKING
 //params de la cruz
 mov x18, 417
 mov x19, 342
-//params del peon
+//params del peón
 mov x16, 48
 mov x17, 292
 
@@ -399,7 +399,7 @@ mov x10, x27
 //params de la cruz
 mov x18, 225
 mov x19, 590
-//params del peon
+//params del peón
 mov x16, 240
 mov x17, 45
 bl drawking
@@ -473,8 +473,8 @@ drawpawn:
 sub sp, sp, 16
 stur lr, [sp]
 stur x19, [sp, 8]
-// PEONES (TRAPECIO CON CIRCULO ARRIBA)
-//CIRCULO
+// PEONES (TRAPECIO CON CÍRCULO ARRIBA)
+//CÍRCULO
 mov x9, SQUARERADIUS
 bl circle
 
@@ -494,7 +494,7 @@ drawbishop:
 sub sp, sp, 8
 stur lr, [sp]
 
-//CIRCULO
+//CÍRCULO
 mov x9, SQUARERADIUS
 bl circle
 
@@ -597,7 +597,7 @@ br lr
 drawcross:
 sub sp, sp, 8
 stur lr, [sp]
-//Acomodar rectangulo para la cruz
+//Acomodar rectángulo para la cruz
 
 /*
 Reinicio el x0
@@ -615,7 +615,7 @@ lsl x13,x13,2
 add x0, x0, x13
  
 /*param:
-x0 dirección de arriba a la Izquierda del rectangulo */
+x0 dirección de arriba a la Izquierda del rectángulo */
 
 mov x12, 4 //alto
 width_again1:
@@ -632,7 +632,7 @@ b width_again1
 done_horizontal_rect:
 
 /*acomodo con respecto al x0 final, para armar la cruz, me fijo desde la posición anterior
-que me deja el rectangulo horizontal*/
+que me deja el rectángulo horizontal*/
 
 mov x6, 2 // height/2
 mov x7, 6// width/2
@@ -647,7 +647,7 @@ lsl x15,x15,2
 add x0, x0, x15
 
 /*param:
-x0 dirección de arriba ala Izquierda del rectangulo */
+x0 dirección de arriba a la Izquierda del rectángulo */
 mov x12, 12 //alto
 width_again2:
 mov x13, 4 //ancho
@@ -666,12 +666,12 @@ ldur lr, [sp]
 add sp, sp, 8
 br lr
 
-//FUNCION DEL CIRCULO
+//FUNCIÓN DEL CÍRCULO
 circle:
 sub sp, sp, 8
 stur lr, [sp]
 
-mov x0, x20 //reinicio x0 con la primer direccion de memoria
+mov x0, x20 //reinicio x0 con la primer dirección de memoria
 
 
 mov x21, SCREEN_HEIGHT
@@ -714,7 +714,7 @@ Reinicio el x0
 */
 mov x0, x20
 /*
-Acomodo en donde quiero para armar el rectangulo
+Acomodo en donde quiero para armar el rectángulo
 Parámetros x18(alto), x19(ancho) en pantalla
 */
 
@@ -725,8 +725,8 @@ lsl x13,x13,2
 add x0, x0, x13
 
 //Armo el trapecio
-//Recibo parametros del ancho del techo x16
-//El trapecio que voy a realizar va a ser de altura 6, lo unico que cambia es el ancho del techo del trapecio
+//Recibo parámetros del ancho del techo x16
+//El trapecio que voy a realizar va a ser de altura 6, lo único que cambia es el ancho del techo del trapecio
 lsl x12, x12, 2
 mov x21, 6
 anchotraptecho:
@@ -742,7 +742,7 @@ add x13, x13, 4
 add x0, x0, x13
 sub x21, x21, 1
 cbz x21, donetraptecho
-sub x16, x16, 2 // Le resto 2 para la proxima iteracion y que la linea de abajo sea un poco mas chica, asi da el efecto del trapecio
+sub x16, x16, 2 // Le resto 2 para la próxima iteración y que la línea de abajo sea un poco más chica, así da el efecto del trapecio
 b anchotraptecho
 
 donetraptecho:
@@ -758,7 +758,7 @@ trapeciopiso:
 
 sub sp, sp, 8
 stur lr, [sp]
-mov x0, x20 //reinicio x0 con la direccion base
+mov x0, x20 //reinicio x0 con la dirección base
 
 //acomodo x0 al lugar de la memoria que yo quiero
 
@@ -774,10 +774,10 @@ add x1, x2, 4
 mul x22, x22, x1
 
 trap: 
-add x0, x0, SCREEN_WIDTH*4 //sumo linea tras linea hasta llegar a la que quiero
-sub x21, x21, 1 //resto al contador de las lineas
-cbnz x21, trap //si no estoy en la fila que quiero, continuo
-add x0, x0, x22 //cuando llegue a la fila q quiera, coloco x0 justo abajo del circulo
+add x0, x0, SCREEN_WIDTH*4 //sumo línea tras línea hasta llegar a la que quiero
+sub x21, x21, 1 //resto al contador de las líneas
+cbnz x21, trap //si no estoy en la fila que quiero, continúo
+add x0, x0, x22 //cuando llegué a la fila q quiera, coloco x0 justo abajo del círculo
 
 //PINTAR EL TRAPECIO
 add x21, x2, x18 //el lado de arriba del trapeciopiso
@@ -802,12 +802,12 @@ add sp, sp, 8
 ret
 
 
-//FUNCION ELIPSE
+//FUNCIÓN ELIPSE
 
 elipse:
 sub sp, sp, 8
 stur lr, [sp]
-mov x0, x20 //reinicio x0 con la direccion base
+mov x0, x20 //reinicio x0 con la dirección base
 
 mov x21, SCREEN_HEIGHT
 loopelipse1:
@@ -849,7 +849,7 @@ stur lr, [sp]
 
 mov x0, x20 // Reinicio el x0
 
-//Acomodo el x0 a donde quiera colocar el rectangulo
+//Acomodo el x0 a donde quiera colocar el rectángulo
 //Recibo en x18(ancho) y x19(alto) para el x0
 mov x12, SCREEN_WIDTH
 mul x13, x18, x12
@@ -857,8 +857,8 @@ add x13, x13, x19
 lsl x13,x13,2
 add x0, x0, x13
 
-//Dibujo el rectangulo
-//Recibo en x16(ancho) y x17(alto) del rectangulo
+//Dibujo el rectángulo
+//Recibo en x16(ancho) y x17(alto) del rectángulo
 
 mov x7, x17
 reset_width_rect:
@@ -882,12 +882,12 @@ add sp, sp, 8
 br lr
 
 
-//TRIANGULO RECTANGULO
+//TRIÁNGULO RECTÁNGULO
 
 triangulorectangulo1:
 sub sp, sp, 8
 stur lr, [sp]
-mov x0, x20 //reinicio x0 con la direccion base
+mov x0, x20 //reinicio x0 con la dirección base
 
 //acomodo x0 al lugar de la memoria que yo quiero
 
@@ -902,10 +902,10 @@ sub x22, x22, x8
 add x1, x2, 4
 mul x22, x22, x1 
 triangulo:
-add x0, x0, SCREEN_WIDTH*4 //sumo linea tras linea hasta llegar a la que quiero
-sub x21, x21, 1 //resto al contador de las lineas
-cbnz x21, triangulo //si no estoy en la fila que quiero, continuo
-add x0, x0, x22 //cuando llegue a la fila q quiera, coloco x0 justo abajo del circulo
+add x0, x0, SCREEN_WIDTH*4 //sumo línea tras línea hasta llegar a la que quiero
+sub x21, x21, 1 //resto al contador de las líneas
+cbnz x21, triangulo //si no estoy en la fila que quiero, continúo
+add x0, x0, x22 //cuando llegué a la fila q quiera, coloco x0 justo abajo del círculo
 
 //PINTAR EL TRAPECIO
 add x21, x2, x18 //el lado de arriba del trapeciopiso
@@ -934,7 +934,7 @@ triangulorectangulo2:
 
 sub sp, sp, 8
 stur lr, [sp]
-mov x0, x20 //reinicio x0 con la direccion base
+mov x0, x20 //reinicio x0 con la dirección base
 
 //acomodo x0 al lugar de la memoria que yo quiero
 
@@ -950,10 +950,10 @@ add x1, x2, 4
 mul x22, x22, x1
 
 triangulo2: 
-add x0, x0, SCREEN_WIDTH*4 //sumo linea tras linea hasta llegar a la que quiero
-sub x21, x21, 1 //resto al contador de las lineas
-cbnz x21, triangulo2 //si no estoy en la fila que quiero, continuo
-add x0, x0, x22 //cuando llegue a la fila q quiera, coloco x0 justo abajo del circulo
+add x0, x0, SCREEN_WIDTH*4 //sumo línea tras línea hasta llegar a la que quiero
+sub x21, x21, 1 //resto al contador de las líneas
+cbnz x21, triangulo2 //si no estoy en la fila que quiero, continúo
+add x0, x0, x22 //cuando llegué a la fila q quiera, coloco x0 justo abajo del círculo
 
 //PINTAR EL TRAPECIO
 add x21, x2, x18 //el lado de arriba del trapeciopiso
@@ -1017,7 +1017,7 @@ br lr
 
 norwayflag:
 
-//Recibo parametros x18(alto), x19(ancho), x10 color
+//Recibo parámetros x18(alto), x19(ancho), x10 color
 
 sub sp, sp, 32
 
@@ -1063,7 +1063,7 @@ mov x17, 9
 ldr x10, =NORBLANCO
 
 
-bl rectangle //Rectangulo hor blanco
+bl rectangle //Rectángulo hor blanco
 
 
 mov x18, BTW_CHESS_BORDER_HEIGH
@@ -1074,7 +1074,7 @@ mov x16, 9
 
 mov x17, 30
 
-bl rectangle //Rectangulo ver blanco
+bl rectangle //Rectángulo ver blanco
 
 
 ldur x10, [sp, 24]
@@ -1103,7 +1103,7 @@ mov x17, 5
 ldr x10, =NORAZUL
 
 
-bl rectangle //Rectangulo hor azul
+bl rectangle //Rectángulo hor azul
 
 
 mov x18, BTW_CHESS_BORDER_HEIGH
@@ -1114,7 +1114,7 @@ mov x16, 5
 
 mov x17, 30
 
-bl rectangle //Rectangulo ver azul
+bl rectangle //Rectángulo ver azul
 
 
 ldur x10, [sp, 24]
@@ -1134,7 +1134,7 @@ br lr
 
 russiaflag:
 
-//Recibo parametros x18(alto), x19(ancho), x10 color
+//Recibo parámetros x18(alto), x19(ancho), x10 color
 
 sub sp, sp, 32
 
@@ -1180,7 +1180,7 @@ mov x17, 10
 ldr x10, =RUSBLANCO
 
 
-bl rectangle //Rectangulo hor blanco
+bl rectangle //Rectángulo hor blanco
 
 
 ldur x10, [sp, 24]
@@ -1209,7 +1209,7 @@ mov x17, 10
 ldr x10, =RUSAZUL
 
 
-bl rectangle //Rectangulo hor azul
+bl rectangle //Rectángulo hor azul
 
 
 ldur x10, [sp, 24]
@@ -1583,7 +1583,7 @@ delayloops6:
 	bl drawqueen
 	
 	ldr x10, =ROJO
-	 //PARAMETROS DE DRAWKING
+	 //PARÁMETROS DE DRAWKING
 	//params de la cruz
 	mov x18, 25
 	mov x19, 342
